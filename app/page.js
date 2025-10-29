@@ -1,65 +1,156 @@
+'use client';
+
 import Image from "next/image";
+import Script from "next/script";
+import { useState, useEffect, useRef } from "react";
+import Navbar from './components/Navbar';
 
 export default function Home() {
+  const containerRef = useRef(null);
+  const [viewerReady, setViewerReady] = useState(false);
+
+  const MODEL_ID = 'e9cc6714cac542f1804d4c7f7dac5583';
+
+  const initSketchfab = () => {
+    if (typeof window === 'undefined' || !containerRef.current || !window.Sketchfab) return;
+
+    // Clear any previous iframe on hot reload
+    containerRef.current.innerHTML = '';
+
+    const iframe = document.createElement('iframe');
+    iframe.title = 'Halloween Scene';
+    iframe.allow = 'autoplay; fullscreen; xr-spatial-tracking; accelerometer; gyroscope';
+    iframe.style.width = '100%';
+    iframe.style.height = '120%';
+    iframe.style.border = '0';
+    containerRef.current.appendChild(iframe);
+
+    const client = new window.Sketchfab(iframe);
+    client.init(MODEL_ID, {
+      autostart: 1,
+      transparent: 1,
+      scrollwheel: 0, // disable wheel zoom; drag still works
+      ui_watermark: 0,
+      ui_infos: 0,
+      ui_hint: 0,
+      ui_inspector: 0,
+      ui_stop: 0,
+      ui_ar: 0,
+      ui_help: 0,
+      ui_settings: 0,
+      ui_vr: 0,
+      ui_fullscreen: 0,
+      ui_annotations: 0,
+      ui_controls: 1,
+      success: (api) => {
+        api.addEventListener('viewerready', () => {
+          setViewerReady(true);
+        });
+      },
+      error: () => {
+        // Fail-safe to hide loader if viewer doesn't fire ready
+        setTimeout(() => setViewerReady(true), 4000);
+      }
+    });
+  };
+
+  // If the script was already loaded (hot reload), initialize
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.Sketchfab) {
+      initSketchfab();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const scrollToContent = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-black">
+      <Navbar />
+      
+      {/* Hero Section */}
+      <section className="relative h-screen w-full overflow-hidden bg-black">
+        {/* Sketchfab 3D Background Scene via Viewer API */}
+        <div className="absolute inset-0 z-10 overflow-hidden bg-black">
+          <div ref={containerRef} className="w-full h-full relative" style={{ transform: 'scale(1.15) translateY(-8%)' }} />
+          {/* Loading GIF overlay */}
+          <div className={`absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-300 pointer-events-none ${viewerReady ? 'opacity-0' : 'opacity-100'}`}>
+            <Image 
+              src="/hero_section/loading.gif" 
+              alt="Loading 3D Model" 
+              width={160} 
+              height={160} 
+              priority 
+              style={{ width: 'auto', height: 'auto' }}
+            />
+          </div>
+          {/* Gradient overlays to hide watermarks - do not block interaction */}
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t from-black via-black/90 to-transparent pointer-events-none z-10"></div>
+          <div className="absolute top-0 left-0 right-0 h-16 bg-linear-to-b from-black/60 to-transparent pointer-events-none z-10"></div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        
+        {/* Content Overlay */}
+        <div className="relative z-30 flex flex-col items-center justify-center h-full px-4 pointer-events-none">
+          {/* Top Text */}
+          <div className="mb-12 animate-fade-in pointer-events-auto">
+            <Image
+              src="/hero_section/its_halloween_a_party_o_clock.png"
+              alt="It's Halloween Party O'Clock"
+              width={1000}
+              height={120}
+              className="w-full max-w-4xl h-auto select-none pointer-events-none"
+              priority
+            />
+          </div>
+
+          {/* Main Title */}
+          <div className="mb-16 animate-float pointer-events-auto">
+            <Image
+              src="/hero_section/game_grid.png"
+              alt="Game Grid"
+              width={2100}
+              height={400}
+              className="w-full max-w-6xl h-auto drop-shadow-2xl pointer-events-none select-none"
+              priority
+            />
+          </div>
+
+          {/* Scroll Down Arrow */}
+          <button 
+            onClick={scrollToContent}
+            className="animate-bounce cursor-pointer hover:scale-110 transition-transform pointer-events-auto"
+            aria-label="Scroll down"
           >
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/hero_section/arrow.png"
+              alt="Scroll down"
+              width={60}
+              height={60}
+              className="opacity-80 hover:opacity-100 transition-opacity pointer-events-none"
+              style={{ width: 'auto', height: 'auto' }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </button>
         </div>
-      </main>
+      </section>
+
+      {/* Load Sketchfab viewer SDK */}
+      <Script
+        src="https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js"
+        strategy="afterInteractive"
+        onLoad={initSketchfab}
+      />
+
+      {/* Additional Content Sections */}
+      <section className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-4xl font-bold mb-4">More Content Coming Soon...</h2>
+          <p className="text-xl text-gray-400">Stay tuned for more sections!</p>
+        </div>
+      </section>
     </div>
   );
 }
