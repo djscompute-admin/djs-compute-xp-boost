@@ -4,6 +4,7 @@ import Image from "next/image";
 import Script from "next/script";
 import { useState, useEffect, useRef } from "react";
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -72,13 +73,13 @@ export default function Home() {
     <div className="min-h-screen bg-black">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden bg-black">
+  {/* Hero Section */}
+  <section id="home" className="relative h-screen w-full overflow-hidden bg-black select-none">
         {/* Sketchfab 3D Background Scene via Viewer API */}
-        <div className="absolute inset-0 z-10 overflow-hidden bg-black">
-          <div ref={containerRef} className="w-full h-full relative" style={{ transform: 'scale(1.15) translateY(-8%)' }} />
+        <div className="absolute inset-0 z-10 overflow-hidden bg-black select-none">
+          <div ref={containerRef} className="w-full h-full relative select-none" style={{ transform: 'scale(1.15) translateY(-8%)' }} />
           {/* Loading GIF overlay */}
-          <div className={`absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-300 pointer-events-none ${viewerReady ? 'opacity-0' : 'opacity-100'}`}>
+          <div className={`absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-300 pointer-events-none select-none ${viewerReady ? 'opacity-0' : 'opacity-100'}`}>
             <Image 
               src="/hero_section/loading.gif" 
               alt="Loading 3D Model" 
@@ -144,13 +145,24 @@ export default function Home() {
         onLoad={initSketchfab}
       />
 
-      {/* Additional Content Sections */}
-      <section className="min-h-screen bg-black text-white flex items-center justify-center">
+      {/* Teams Section */}
+      <section id="teams" className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4">More Content Coming Soon...</h2>
-          <p className="text-xl text-gray-400">Stay tuned for more sections!</p>
+          <h2 className="jolly-lodger-regular text-5xl mb-4">Teams</h2>
+          <p className="text-xl text-gray-400">Team details will rise from the shadows soon.</p>
         </div>
       </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="jolly-lodger-regular text-5xl mb-4">Projects</h2>
+          <p className="text-xl text-gray-400">Stay tuned for spooky showcases.</p>
+        </div>
+      </section>
+
+      {/* Footer (Contact) */}
+      <Footer />
     </div>
   );
 }
