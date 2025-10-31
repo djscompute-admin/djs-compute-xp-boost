@@ -147,19 +147,19 @@ export default function Home() {
         onLoad={initSketchfab}
       />
 
-      {/* Teams Section */}
-      <section id="teams" className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="jolly-lodger-regular text-5xl mb-4">Teams</h2>
-          <p className="text-xl text-gray-400">Team details will rise from the shadows soon.</p>
+      {/* Leaderboard Section */}
+      <section id="leaderboard" className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center px-4">
+          <h2 className="jolly-lodger-regular text-5xl sm:text-6xl md:text-7xl mb-6 text-orange-500">Leaderboard</h2>
+          <p className="text-xl sm:text-2xl text-gray-400">The champions will be revealed here soon...</p>
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="jolly-lodger-regular text-5xl mb-4">Projects</h2>
-          <p className="text-xl text-gray-400">Stay tuned for spooky showcases.</p>
+      {/* About Party Section */}
+      <section id="about-party" className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center px-4">
+          <h2 className="jolly-lodger-regular text-5xl sm:text-6xl md:text-7xl mb-6 text-orange-500">About Party</h2>
+          <p className="text-xl sm:text-2xl text-gray-400">Join us for a spooktacular celebration!</p>
         </div>
       </section>
 

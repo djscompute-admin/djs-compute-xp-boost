@@ -45,8 +45,8 @@ export default function Footer() {
             <h3 className="jolly-lodger-regular text-3xl sm:text-4xl lg:text-5xl mb-6 sm:mb-8 tracking-wide uppercase">Info</h3>
             <ul className="space-y-2 sm:space-y-3 text-lg sm:text-xl jolly-lodger-regular">
               <li><a href="#home" className="hover:text-orange-400 transition-colors uppercase">Home</a></li>
-              <li><a href="#teams" className="hover:text-orange-400 transition-colors uppercase">Teams</a></li>
-              <li><a href="#projects" className="hover:text-orange-400 transition-colors uppercase">Projects</a></li>
+              <li><a href="#leaderboard" className="hover:text-orange-400 transition-colors uppercase">Leaderboard</a></li>
+              <li><a href="#about-party" className="hover:text-orange-400 transition-colors uppercase">About Party</a></li>
               <li><a href="#prize-pool" className="hover:text-orange-400 transition-colors uppercase">Prize Pool</a></li>
               <li><a href="#faq" className="hover:text-orange-400 transition-colors uppercase">FAQ</a></li>
             </ul>

@@ -33,8 +33,8 @@ export default function Navbar() {
         {/* Navigation Links */}
         <div className="hidden md:flex items-center gap-8 text-white">
           <a href="#home" onClick={handleNavClick('home')} className="hover:text-orange-500 transition-colors font-medium text-lg">Home</a>
-          <a href="#teams" onClick={handleNavClick('teams')} className="hover:text-orange-500 transition-colors font-medium text-lg">Teams</a>
-          <a href="#projects" onClick={handleNavClick('projects')} className="hover:text-orange-500 transition-colors font-medium text-lg">Projects</a>
+          <a href="#leaderboard" onClick={handleNavClick('leaderboard')} className="hover:text-orange-500 transition-colors font-medium text-lg">Leaderboard</a>
+          <a href="#about-party" onClick={handleNavClick('about-party')} className="hover:text-orange-500 transition-colors font-medium text-lg">About Party</a>
           <a href="#prize-pool" onClick={handleNavClick('prize-pool')} className="hover:text-orange-500 transition-colors font-medium text-lg">Prize Pool</a>
           <a href="#contact" onClick={handleNavClick('contact')} className="hover:text-orange-500 transition-colors font-medium text-lg">Contact</a>
         </div>
