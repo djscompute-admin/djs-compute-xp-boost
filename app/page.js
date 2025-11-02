@@ -8,6 +8,8 @@ import Footer from "./components/Footer";
 import PrizePool from "./components/PrizePool";
 import FAQ from "./components/FAQ";
 import AboutParty from "./components/AboutParty";
+import Leaderboard from './components/Leaderboard';
+import Head from 'next/head';
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -166,19 +168,22 @@ export default function Home() {
       />
 
       {/* Leaderboard Section */}
-      <section
-        id="leaderboard"
-        className="min-h-screen bg-black text-white flex items-center justify-center"
-      >
-        <div className="text-center px-4">
-          <h2 className="jolly-lodger-regular text-5xl sm:text-6xl md:text-7xl mb-6 text-orange-500">
-            Leaderboard
-          </h2>
-          <p className="text-xl sm:text-2xl text-gray-400">
-            The champions will be revealed here soon...
-          </p>
-        </div>
-      </section>
+     
+
+    <div>
+      <Head>
+        <title>Spooky Leaderboard</title>
+        <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet" />
+        {/* You might want to prefetch images for the background here */}
+      </Head>
+
+      <main>
+        {/* Other sections of your webpage can go here */}
+        <Leaderboard />
+        {/* More sections */}
+      </main>
+    </div>
+
 
       {/* About Party, Prize Pool & FAQ Container with Shared Background */}
       <div
@@ -205,7 +210,7 @@ export default function Home() {
       </div>
 
       {/* Gradient Transition to Footer */}
-      <div className="h-24 bg-gradient-to-b from-transparent to-black" />
+      <div className="h-24 bg-linear-to-b from-transparent to-black" />
 
       {/* Footer (Contact) */}
       <Footer />

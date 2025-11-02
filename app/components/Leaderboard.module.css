@@ -1,0 +1,239 @@
+.leaderboardSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Add padding-top to create space for background title */
+  padding: 150px 20px 40px; /* Top, Right/Left, Bottom */
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Creepster', cursive;
+  position: relative;
+  overflow: hidden;
+  background-color: #0d0d1a;
+  background-image: url('/leaderboard/leaderboard_bg.png'); /* Updated background URL */
+  background-size: cover;
+  background-position: center top; /* Center horizontally, align to top vertically */
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+}
+
+/* Hide the h1 element as per request, background provides it */
+.leaderboardTitle {
+  display: none;
+}
+
+.top3 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align podium items to the bottom */
+  gap: 30px;
+  margin-bottom: 50px;
+  width: 100%;
+  max-width: 1800px;
+  z-index: 1;
+}
+
+.podiumWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Adjust margin-bottom to control spacing between name/id and box */
+  margin-bottom: 20px; /* Space between the name/id and the top of the box */
+}
+
+.teamNameAbovePodium {
+  font-size: 1.5em; /* Adjusted size for the name above */
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 3px #000;
+  margin-bottom: 5px; /* Space between name and ID */
+  text-align: center;
+}
+
+.teamIdAbovePodium {
+  font-size: 0.9em; /* Size for the ID above */
+  color: #aaa;
+  margin-bottom: 30px; /* Space between ID and the box itself */
+  text-align: center;
+}
+
+
+/* --- Podium item styling to match original design image (grey 3D boxes) --- */
+.podiumItem {
+  background: rgba(40, 40, 60, 0.8); /* Grey-blue background with some transparency */
+  border-radius: 15px; /* Rounded corners as in design */
+  padding: 20px; /* Uniform padding inside */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  /* 3D box shadow effect */
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.5), /* Main shadow for lift */
+    inset 0 0 10px rgba(255, 255, 255, 0.1); /* Inner glow for depth */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  flex: 1;
+  color: #fff; /* White text inside boxes */
+  position: relative;
+}
+
+.podiumItem:hover {
+  transform: translateY(-5px); /* Gentle lift on hover */
+  box-shadow: 
+    0 15px 25px rgba(0, 0, 0, 0.7),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.firstPlace {
+  height: 300px; /* Increased height for 1st place box */
+  width:320px;
+  transform: translateY(-20px); /* Keep 1st place lifted */
+}
+
+.secondPlace {
+  height: 250px; /* Increased height for 2nd place box */
+  width:270px;
+}
+
+.thirdPlace {
+  height: 200px; /* Increased height for 3rd place box */
+  width:220px;
+}
+
+.placeNumber { /* The 1st, 2nd, 3rd text inside the box */
+  font-size: 1.8em; /* Size for the rank number */
+  font-weight: bold;
+  color: #a0a0b0; /* Light greyish color as in original design */
+  margin-bottom: 10px; /* Space below the rank number */
+}
+
+.podiumIcon { /* Styling for the small images */
+  margin-bottom: 15px; /* Space below the icon */
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); /* Stronger glow/shadow for icon */
+}
+
+/* TeamName and TeamId are now ABOVE the podiumItem boxes */
+/* .teamName, .teamId are no longer used inside the box */
+
+.points {
+  display: flex;
+  flex-direction: column; /* Stack XP value and label */
+  align-items: center;
+  gap: 2px;
+  margin-top: auto; /* Push to bottom */
+}
+
+.pointValue {
+  font-size: 1.5em; /* Match design */
+  font-weight: bold;
+  color: #00e6e6; /* Cyan color from design */
+  text-shadow: 1px 1px 2px #000;
+}
+
+.pointLabel {
+  font-size: 0.7em; /* Match design */
+  text-transform: uppercase;
+  color: #ccc;
+}
+
+.remainingTeamsContainer {
+  width: 100%;
+  max-width: 800px;
+  height: 570px; /* Keeps roughly 7-8 teams visible for scrolling all teams */
+  overflow-y: auto;
+  background: rgba(20, 20, 30, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  /* Custom scrollbar for webkit browsers */
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ff9900;
+    border-radius: 10px;
+    border: 2px solid rgba(20, 20, 30, 0.8);
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #ffd700;
+  }
+}
+
+.remainingTeams {
+  padding: 10px 0;
+}
+
+.teamRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.teamRow:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff9900;
+  width: 50px;
+  text-align: center;
+}
+
+.teamInfoDetailed {
+  flex-grow: 1;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.teamNameDetailed {
+  font-size: 1.3em;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.teamIdDetailed {
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.pointsDetailed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.pointValueDetailed {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #00e6e6; /* Cyan color */
+}
+
+.pointLabelDetailed {
+  font-size: 0.7em;
+  text-transform: uppercase;
+  color: #ccc;
+}
+
+.loadingText, .errorText {
+    color: #ffeb3b;
+    font-size: 1.5em;
+    text-align: center;
+    margin-top: 30px;
+    z-index: 1;
+}
+
+.errorText {
+    color: red;
+}
