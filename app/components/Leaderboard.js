@@ -3,7 +3,7 @@ import Image from 'next/image';
 import styles from './Leaderboard.module.css';
 
 const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRtbDJdM5IaEo1nqatV9VmHjOCkfUGZP3plWHbi8iHR0703pm_pg3Z2lmxuqyL3SebvRTqW6del9ar1/pub?gid=0&single=true&output=csv';
-const REFRESH_INTERVAL = 30 * 1000; // 30 seconds
+const REFRESH_INTERVAL = 10 * 1000; // 30 seconds
 const TEAMS_PER_PAGE = 7; // Number of teams to display per page in the scrollable section
 
 const Leaderboard = () => {
