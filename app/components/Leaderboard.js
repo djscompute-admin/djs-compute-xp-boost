@@ -2,8 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'; // Added useMemo
 import Image from 'next/image';
 import styles from './Leaderboard.module.css';
 
-const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRtbDJdM5IaEo1nqatV9VmHjOCkfUGZP3plWHbi8iHR0703pm_pg3Z2lmxuqyL3SebvRTqW6del9ar1/pub?gid=0&single=true&output=csv';
-const REFRESH_INTERVAL = 10 * 1000; // 30 seconds
+const REFRESH_INTERVAL = 20 * 1000; // 20 seconds
 const TEAMS_PER_PAGE = 7; // Number of teams to display per page in the scrollable section
 
 const Leaderboard = () => {
@@ -14,13 +13,26 @@ const Leaderboard = () => {
 
   const fetchLeaderboardData = async () => {
     try {
-      const response = await fetch(GOOGLE_SHEET_CSV_URL);
+      const response = await fetch('/api/leaderboard', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+        cache: 'no-store'
+      });
+      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Response error:', errorText);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const csvText = await response.text();
-      const parsedTeams = parseCsv(csvText);
-      const sortedTeams = parsedTeams.sort((a, b) => b.totalXP - a.totalXP);
+      
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      const sortedTeams = data.sort((a, b) => b.totalXP - a.totalXP);
       setTeams(sortedTeams);
       setError(null);
       setCurrentPage(0); // Reset to first page on new data fetch
@@ -38,17 +50,7 @@ const Leaderboard = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const parseCsv = (csv) => {
-    const lines = csv.split('\n').filter(line => line.trim() !== '');
-    return lines.slice(1).map(line => {
-      const [teamId, teamName, totalXP] = line.split(',');
-      return {
-        teamId: teamId ? teamId.trim() : 'N/A',
-        teamName: teamName ? teamName.trim() : 'Unknown Team',
-        totalXP: parseInt(totalXP, 10) || 0,
-      };
-    });
-  };
+
 
   // Memoize the data for the paginated list to avoid re-calculating on every render
   const remainingTeams = useMemo(() => teams.slice(3), [teams]);
