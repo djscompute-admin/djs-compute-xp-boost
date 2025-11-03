@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets API Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0051cc;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .status {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .step {
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #0070f3;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Google Sheets API Test</h1>
+        <p class="subtitle">Test your Google Sheets API configuration before running the app</p>
+
+        <div class="input-group">
+            <label for="spreadsheetId">Spreadsheet ID</label>
+            <input type="text" id="spreadsheetId" placeholder="1a2BcD3EfG4HiJ5kL6mN7oP8qR9sT0uVwXyZ">
+            <small style="color: #666; display: block; margin-top: 5px;">
+                From your sheet URL: docs.google.com/spreadsheets/d/<strong>SPREADSHEET_ID</strong>/edit
+            </small>
+        </div>
+
+        <div class="input-group">
+            <label for="apiKey">API Key</label>
+            <input type="password" id="apiKey" placeholder="AIzaSyD-your_api_key_here">
+            <small style="color: #666; display: block; margin-top: 5px;">
+                From Google Cloud Console → APIs & Services → Credentials
+            </small>
+        </div>
+
+        <div class="input-group">
+            <label for="sheetName">Sheet Name (tab name)</label>
+            <input type="text" id="sheetName" value="Sheet1" placeholder="Sheet1">
+        </div>
+
+        <button onclick="testConnection()">🚀 Test Connection</button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function testConnection() {
+            const spreadsheetId = document.getElementById('spreadsheetId').value.trim();
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const sheetName = document.getElementById('sheetName').value.trim() || 'Sheet1';
+            const resultDiv = document.getElementById('result');
+            const button = document.querySelector('button');
+
+            // Validation
+            if (!spreadsheetId) {
+                showResult('error', '❌ Please enter a Spreadsheet ID');
+                return;
+            }
+            if (!apiKey) {
+                showResult('error', '❌ Please enter an API Key');
+                return;
+            }
+
+            // Start test
+            button.disabled = true;
+            button.textContent = '🔄 Testing...';
+            resultDiv.style.display = 'none';
+
+            try {
+                // Build API URL
+                const range = `${sheetName}!A:C`;
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+
+                console.log('Testing URL:', url);
+
+                // Make request
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(`HTTP ${response.status}: ${errorData.error?.message || response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                // Parse results
+                if (!data.values || data.values.length === 0) {
+                    showResult('info', `
+                        <div class="step">✅ <strong>Connection Successful!</strong></div>
+                        <div class="step">⚠️ <strong>Warning:</strong> Sheet is empty or has no data in columns A-C</div>
+                        <div class="step">📝 Expected format:
+                            <pre>Team ID | Team Name | Total XP
+DCXB01  | Team 1    | 1000</pre>
+                        </div>
+                    `);
+                    return;
+                }
+
+                // Check if first row is header
+                const headers = data.values[0];
+                const dataRows = data.values.slice(1);
+
+                let html = `
+                    <div class="step">✅ <strong>Connection Successful!</strong></div>
+                    <div class="step">📊 <strong>Sheet:</strong> ${sheetName}</div>
+                    <div class="step">📝 <strong>Headers:</strong> ${headers.join(' | ')}</div>
+                    <div class="step">📈 <strong>Data Rows:</strong> ${dataRows.length}</div>
+                `;
+
+                // Show sample data
+                if (dataRows.length > 0) {
+                    html += '<div class="step"><strong>Sample Data (first 5 rows):</strong><pre>';
+                    dataRows.slice(0, 5).forEach((row, i) => {
+                        html += `${i + 1}. ${row.join(' | ')}\n`;
+                    });
+                    html += '</pre></div>';
+                }
+
+                // Validate structure
+                const expectedHeaders = ['Team ID', 'Team Name', 'Total XP'];
+                const headersMatch = expectedHeaders.every((h, i) => 
+                    headers[i] && headers[i].trim().toLowerCase() === h.toLowerCase()
+                );
+
+                if (!headersMatch) {
+                    html += `
+                        <div class="step" style="border-color: orange;">
+                            ⚠️ <strong>Warning:</strong> Headers don't match expected format<br>
+                            Expected: ${expectedHeaders.join(' | ')}<br>
+                            Found: ${headers.join(' | ')}
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="step" style="border-color: green;">
+                        🎉 <strong>Ready to use!</strong> Copy these values to your .env.local:
+                        <pre>NEXT_PUBLIC_SPREADSHEET_ID=${spreadsheetId}
+NEXT_PUBLIC_GOOGLE_API_KEY=${apiKey.substring(0, 10)}...</pre>
+                    </div>
+                `;
+
+                showResult('success', html);
+
+            } catch (error) {
+                console.error('Test failed:', error);
+                
+                let html = '<div class="step">❌ <strong>Connection Failed</strong></div>';
+                
+                if (error.message.includes('404')) {
+                    html += `
+                        <div class="step">
+                            <strong>Error:</strong> Spreadsheet not found (404)<br><br>
+                            <strong>Solutions:</strong>
+                            <ul>
+                                <li>✅ Verify the Spreadsheet ID is correct</li>
+                                <li>✅ Make sure the sheet is shared as "Anyone with the link can view"</li>
+                                <li>✅ Check that the sheet exists and is accessible</li>
+                            </ul>
+                        </div>
+                    `;
+                } else if (error.message.includes('403')) {
+                    html += `
+                        <div class="step">
+                            <strong>Error:</strong> Access forbidden (403)<br><br>
+                            <strong>Solutions:</strong>
+                            <ul>
+                                <li>✅ Check your API key is correct</li>
+                                <li>✅ Ensure Google Sheets API is enabled in Google Cloud Console</li>
+                                <li>✅ If testing from localhost, temporarily remove HTTP referrer restrictions</li>
+                                <li>✅ Verify API restrictions allow Google Sheets API</li>
+                            </ul>
+                        </div>
+                    `;
+                } else if (error.message.includes('400')) {
+                    html += `
+                        <div class="step">
+                            <strong>Error:</strong> Bad request (400)<br><br>
+                            <strong>Solutions:</strong>
+                            <ul>
+                                <li>✅ Check for spaces or special characters in API key</li>
+                                <li>✅ Verify sheet name matches exactly (case-sensitive)</li>
+                                <li>✅ Ensure range format is correct (A:C)</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="step">
+                            <strong>Error:</strong> ${error.message}<br><br>
+                            <strong>Troubleshooting:</strong>
+                            <ul>
+                                <li>Check browser console for more details (F12)</li>
+                                <li>Verify all credentials are correct</li>
+                                <li>See FRONTEND_SETUP.md for detailed instructions</li>
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                showResult('error', html);
+            } finally {
+                button.disabled = false;
+                button.textContent = '🚀 Test Connection';
+            }
+        }
+
+        function showResult(type, message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = message;
+            resultDiv.style.display = 'block';
+        }
+
+        // Allow Enter key to submit
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    testConnection();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

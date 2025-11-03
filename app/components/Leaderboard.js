@@ -2,8 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './Leaderboard.module.css';
 
-const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRtbDJdM5IaEo1nqatV9VmHjOCkfUGZP3plWHbi8iHR0703pm_pg3Z2lmxuqyL3SebvRTqW6del9ar1/pub?gid=0&single=true&output=csv';
+// Google Sheets API configuration
+const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
+const SHEET_NAME = 'XP BOOST 2025 - Sheet1.csv'; // Must match your Google Sheet tab name exactly
+const RANGE = `${SHEET_NAME}!A:C`; // Columns A, B, C (Team ID, Team Name, Total XP)
+
+// Multiple API keys for load balancing and fallback
+// Add multiple keys separated by commas in your .env.local
+const API_KEYS = process.env.NEXT_PUBLIC_GOOGLE_API_KEY
+  ? process.env.NEXT_PUBLIC_GOOGLE_API_KEY.split(',').map(key => key.trim())
+  : [];
+
 const REFRESH_INTERVAL = 10 * 1000; // 10 seconds in milliseconds
+
+// Helper function to build API URL with a specific key
+const buildApiUrl = (apiKey) => {
+  return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(RANGE)}?key=${apiKey}`;
+};
 
 const Leaderboard = () => {
   const [teams, setTeams] = useState([]);
@@ -12,18 +27,63 @@ const Leaderboard = () => {
 
   const fetchLeaderboardData = async () => {
     try {
-      const response = await fetch(GOOGLE_SHEET_CSV_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Check if environment variables are set
+      if (!SPREADSHEET_ID || API_KEYS.length === 0) {
+        throw new Error('Missing environment variables. Please check your .env.local file.');
       }
-      const csvText = await response.text();
-      const parsedTeams = parseCsv(csvText);
 
-      // Sort by Total XP in descending order
-      const sortedTeams = parsedTeams.sort((a, b) => b.totalXP - a.totalXP);
+      // Try each API key until one works
+      let lastError = null;
+      for (let i = 0; i < API_KEYS.length; i++) {
+        const apiKey = API_KEYS[i];
+        const apiUrl = buildApiUrl(apiKey);
+        
+        try {
+          const response = await fetch(apiUrl);
+          
+          // If rate limited (429), try next key
+          if (response.status === 429) {
+            console.warn(`API key ${i + 1} rate limited, trying next key...`);
+            lastError = new Error(`Rate limit exceeded for API key ${i + 1}`);
+            continue;
+          }
+          
+          // If other error, throw
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          // Success! Parse and return data
+          const data = await response.json();
+          const parsedTeams = parseGoogleSheetsData(data);
 
-      setTeams(sortedTeams);
-      setError(null);
+          // Sort by Total XP in descending order
+          const sortedTeams = parsedTeams.sort((a, b) => b.totalXP - a.totalXP);
+
+          setTeams(sortedTeams);
+          setError(null);
+          
+          // Log which key succeeded (for debugging)
+          if (i > 0) {
+            console.log(`Successfully fetched data using API key ${i + 1}`);
+          }
+          
+          return; // Exit function on success
+          
+        } catch (e) {
+          lastError = e;
+          // If this is the last key, throw the error
+          if (i === API_KEYS.length - 1) {
+            throw e;
+          }
+          // Otherwise, try next key
+          console.warn(`Error with API key ${i + 1}, trying next key...`, e.message);
+        }
+      }
+      
+      // If we get here, all keys failed
+      throw lastError || new Error('All API keys failed');
+      
     } catch (e) {
       console.error("Failed to fetch leaderboard data:", e);
       setError("Failed to load leaderboard data. Please try again later.");
@@ -40,13 +100,18 @@ const Leaderboard = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const parseCsv = (csv) => {
-    const lines = csv.split('\n').filter(line => line.trim() !== '');
-    return lines.slice(1).map(line => {
-      const [teamId, teamName, totalXP] = line.split(',');
+  const parseGoogleSheetsData = (data) => {
+    // Google Sheets API returns data in format: { values: [["header1", "header2"], ["row1col1", "row1col2"], ...] }
+    if (!data.values || data.values.length < 2) {
+      return [];
+    }
+
+    // Skip the header row (index 0) and map the rest
+    return data.values.slice(1).map(row => {
+      const [teamId, teamName, totalXP] = row;
       return {
-        teamId: teamId ? teamId.trim() : 'N/A',
-        teamName: teamName ? teamName.trim() : 'Unknown Team',
+        teamId: teamId ? String(teamId).trim() : 'N/A',
+        teamName: teamName ? String(teamName).trim() : 'Unknown Team',
         totalXP: parseInt(totalXP, 10) || 0,
       };
     });
