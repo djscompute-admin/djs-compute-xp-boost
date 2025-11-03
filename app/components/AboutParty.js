@@ -44,9 +44,9 @@ export default function AboutParty() {
     {
       id: 3,
       name: "Round 3",
-      description: "Curse of the Cloned Code",
+      description: "Spooky Wordle",
       subtitle:
-        "The Top 8 teams from Round 1 advance to Round 2. In case of a tie, teams will replay one of the Round 1 games selected by the Core Team. The 8 teams are divided into 4 houses (4 members each) via chit-picking. Each house will play a Tech Ludo match. Six bowls contain chits with tech GK and basic coding questions. A dice roll determines how many spaces a team can move if they answer correctly. Incorrect answers result in no movement. The two houses securing 1st and 2nd place will qualify for the next stage. Teams from the 1st winning house will compete for 1st and 2nd place. Teams from the 2nd winning house will compete for 3rd place.",
+        "The Top 4 teams from Round 2 advance to Round 3. In case of a tie, teams will replay one of the Round 1 games selected by the Core Team. The 4 teams are then pitted against each other in a Spooky Wordle match to determine the ultimate champion.",
     },
   ];
 

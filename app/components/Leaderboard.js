@@ -84,7 +84,7 @@ const Leaderboard = () => {
   }
 
   return (
-    <section className={styles.leaderboardSection}>
+    <section id="leaderboard" className={styles.leaderboardSection}>
       {error && <p className={styles.errorText}>{error}</p>}
       <br/>
       <br/>
