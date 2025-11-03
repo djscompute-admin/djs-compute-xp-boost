@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   /* Add padding-top to create space for background title */
-  padding: 150px 20px 40px; /* Top, Right/Left, Bottom */
+  padding: 120px 20px 30px; /* Reduced top padding slightly */
   min-height: 100vh;
   color: #fff;
   font-family: 'Creepster', cursive;
@@ -13,7 +13,6 @@
   background-image: url('/leaderboard/leaderboard_bg.png'); /* Updated background URL */
   background-size: cover;
   background-position: center top; /* Center horizontally, align to top vertically */
-  background-repeat: no-repeat;
   background-repeat: no-repeat;
 }
 
@@ -25,11 +24,11 @@
 .top3 {
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* Align podium items to the bottom */
-  gap: 30px;
-  margin-bottom: 50px;
+  align-items: flex-end;
+  gap: 20px; /* Reduced gap between top 3 items */
+  margin-bottom: 40px; /* Reduced margin */
   width: 100%;
-  max-width: 1800px;
+  max-width: 800px; /* Reduced max-width for overall smaller top3 section */
   z-index: 1;
 }
 
@@ -37,193 +36,223 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Adjust margin-bottom to control spacing between name/id and box */
-  margin-bottom: 20px; /* Space between the name/id and the top of the box */
+  margin-bottom: 15px; /* Reduced space between name/id and box */
 }
 
 .teamNameAbovePodium {
-  font-size: 1.5em; /* Adjusted size for the name above */
+  font-size: 1.3em; /* Smaller font size */
   font-weight: bold;
   color: #fff;
-  text-shadow: 1px 1px 3px #000;
-  margin-bottom: 5px; /* Space between name and ID */
+  text-shadow: 1px 1px 2px #000; /* Lighter shadow */
+  margin-bottom: 3px; /* Reduced space */
   text-align: center;
 }
 
 .teamIdAbovePodium {
-  font-size: 0.9em; /* Size for the ID above */
-  color: #aaa;
-  margin-bottom: 30px; /* Space between ID and the box itself */
+  font-size: 0.8em; /* Smaller font size */
+  color: #585757;
+  margin-bottom: 18px; /* Move the ID higher above the card (more space to the card) */
   text-align: center;
+  padding: 5px;
 }
 
+/* Make the team id (after the @) grey wherever used */
+.teamIdHandle {
+  color: #bdbdbd; /* light grey for ids */
+}
 
-/* --- Podium item styling to match original design image (grey 3D boxes) --- */
+/* --- Podium item styling for smaller size --- */
 .podiumItem {
-  background: rgba(40, 40, 60, 0.8); /* Grey-blue background with some transparency */
-  border-radius: 15px; /* Rounded corners as in design */
-  padding: 20px; /* Uniform padding inside */
+  background: rgba(40, 40, 60, 0.8);
+  border-radius: 35px; /* Slightly smaller radius */
+  padding: 4px; /* Minimal internal padding so image nearly fills the card */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  /* 3D box shadow effect */
+  justify-content: center; /* center the image */
   box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.5), /* Main shadow for lift */
-    inset 0 0 10px rgba(255, 255, 255, 0.1); /* Inner glow for depth */
+    0 8px 15px rgba(0, 0, 0, 0.4), /* Slightly smaller shadow */
+    inset 0 0 8px rgba(255, 255, 255, 0.08); /* Lighter inner glow */
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  flex: 1;
-  color: #fff; /* White text inside boxes */
+  flex: none; /* prevent flexbox from shrinking the card — control size with width/height */
+  color: #fff;
   position: relative;
+  overflow: hidden; /* keep image clipped to card radius */
 }
 
 .podiumItem:hover {
-  transform: translateY(-5px); /* Gentle lift on hover */
+  transform: translateY(-3px); /* Less dramatic lift on hover */
   box-shadow: 
-    0 15px 25px rgba(0, 0, 0, 0.7),
-    inset 0 0 15px rgba(255, 255, 255, 0.2);
+    0 10px 18px rgba(0, 0, 0, 0.6),
+    inset 0 0 10px rgba(255, 255, 255, 0.15);
 }
 
 .firstPlace {
-  height: 300px; /* Increased height for 1st place box */
-  width:320px;
-  transform: translateY(-20px); /* Keep 1st place lifted */
+  height: 260px; /* Larger height so image is visible */
+  width: 220px; /* explicit width */
+  transform: translateY(-18px); /* slight lift */
 }
 
 .secondPlace {
-  height: 250px; /* Increased height for 2nd place box */
-  width:270px;
+  height: 220px; /* Larger height for 2nd place */
+  width: 190px;
 }
 
 .thirdPlace {
-  height: 200px; /* Increased height for 3rd place box */
-  width:220px;
+  height: 180px; /* Larger height for 3rd place */
+  width: 160px;
 }
 
-.placeNumber { /* The 1st, 2nd, 3rd text inside the box */
-  font-size: 1.8em; /* Size for the rank number */
+.placeNumber {
+  font-size: 1.5em; /* Reduced font size */
   font-weight: bold;
-  color: #a0a0b0; /* Light greyish color as in original design */
-  margin-bottom: 10px; /* Space below the rank number */
+  color: #a0a0b0;
+  margin-bottom: 8px; /* Reduced space */
 }
 
-.podiumIcon { /* Styling for the small images */
-  margin-bottom: 15px; /* Space below the icon */
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); /* Stronger glow/shadow for icon */
+.podiumIcon {
+  margin-bottom: 0; /* remove gap — image fills the card */
+  filter: drop-shadow(0 0 6px rgba(0,0,0,0.5)); /* subtle shadow for contrast */
 }
 
-/* TeamName and TeamId are now ABOVE the podiumItem boxes */
-/* .teamName, .teamId are no longer used inside the box */
+/* wrapper for Next Image fill layout */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ensure the actual img fills the wrapper and keeps aspect ratio */
+.imageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* show whole trophy while filling most of the card */
+  display: block;
+}
 
 .points {
   display: flex;
   flex-direction: column; /* Stack XP value and label */
   align-items: center;
   gap: 2px;
-  margin-top: auto; /* Push to bottom */
+  margin-top: 8px; /* small gap between card and points shown below */
 }
 
 .pointValue {
-  font-size: 1.5em; /* Match design */
+  font-size: 1.2em; /* Reduced font size */
   font-weight: bold;
-  color: #00e6e6; /* Cyan color from design */
-  text-shadow: 1px 1px 2px #000;
+  color: #00e6e6;
+  text-shadow: 1px 1px 1px #000;
 }
 
 .pointLabel {
-  font-size: 0.7em; /* Match design */
+  font-size: 0.6em; /* Reduced font size */
   text-transform: uppercase;
   color: #ccc;
 }
 
 .remainingTeamsContainer {
   width: 100%;
-  max-width: 800px;
-  height: 570px; /* Keeps roughly 7-8 teams visible for scrolling all teams */
-  overflow-y: auto;
+  max-width: 700px; /* Reduced max-width for overall smaller list */
+  /* Calculate height for 7 rows + pagination controls */
+  /* Assuming teamRow height is ~45px, pagination is ~50px */
+  height: auto; /* Changed to auto to fit content and pagination */
   background: rgba(20, 20, 30, 0.8);
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  border-radius: 10px; /* Smaller border radius */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6); /* Lighter shadow */
   z-index: 1;
-  /* Custom scrollbar for webkit browsers */
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #ff9900;
-    border-radius: 10px;
-    border: 2px solid rgba(20, 20, 30, 0.8);
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: #ffd700;
-  }
+  padding-bottom: 10px; /* Padding for pagination controls */
+
+  /* No overflow-y: auto here, as we want to see all 7 on a page */
 }
 
 .remainingTeams {
-  padding: 10px 0;
+  padding: 5px 0; /* Reduced padding */
 }
 
 .teamRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.teamRow:last-child {
-  border-bottom: none;
+  padding: 10px 15px; /* Reduced padding for smaller rows */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Lighter border */
+  font-size: 0.9em; /* Overall smaller text in rows */
 }
 
 .rank {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #ff9900;
-  width: 50px;
-  text-align: center;
+  font-size: 1.2em; /* Reduced size */
+  width: 40px; /* Smaller width */
+  color: #ff9900; /* Orange rank color */
 }
 
 .teamInfoDetailed {
-  flex-grow: 1;
-  margin-left: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  margin-left: 15px; /* Reduced margin */
 }
 
 .teamNameDetailed {
-  font-size: 1.3em;
-  color: #fff;
-  margin-bottom: 2px;
+  font-size: 1.1em; /* Reduced size */
+  margin-bottom: 1px;
 }
 
 .teamIdDetailed {
-  font-size: 0.8em;
-  color: #aaa;
+  font-size: 0.7em; /* Reduced size */
 }
 
 .pointsDetailed {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
+  gap: 1px;
 }
 
 .pointValueDetailed {
-  font-size: 1.3em;
+  font-size: 1.1em; /* Reduced size */
   font-weight: bold;
-  color: #00e6e6; /* Cyan color */
+  color: #00e6e6; /* Cyan color for remaining items' points */
 }
 
 .pointLabelDetailed {
-  font-size: 0.7em;
-  text-transform: uppercase;
-  color: #ccc;
+  font-size: 0.6em; /* Reduced size */
+}
+
+.paginationControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 10px; /* Space between last team row and controls */
+}
+
+.paginationButton {
+  background-color: #ff9900;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-family: 'Creepster', cursive;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.paginationButton:hover:not(:disabled) {
+  background-color: #ffd700;
+  transform: translateY(-2px);
+}
+
+.paginationButton:disabled {
+  background-color: #555;
+  color: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.paginationInfo {
+  color: #fff;
+  font-size: 1em;
+  font-weight: bold;
 }
 
 .loadingText, .errorText {
