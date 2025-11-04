@@ -84,7 +84,7 @@ export default function Navbar() {
           href="https://forms.gle/ZPR8EcxSGZSgBQWQ9"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm md:text-lg transition-all transform hover:scale-105 nosifer-regular"
+          className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg font-semibold text-xs md:text-lg transition-all transform hover:scale-105 nosifer-regular"
         >
           Register Now
         </a>

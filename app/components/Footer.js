@@ -20,19 +20,19 @@ export default function Footer() {
             <h3 className="jolly-lodger-regular text-3xl sm:text-4xl lg:text-5xl mb-6 sm:mb-8 tracking-wide uppercase">Social Media</h3>
             <div className="flex items-center justify-center md:justify-start gap-4 sm:gap-5">
               {/* LinkedIn */}
-              <a href="#" aria-label="LinkedIn" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.linkedin.com/company/djscompute/" aria-label="LinkedIn" className="hover:opacity-80 transition-opacity">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 11.268h-3v-5.604c0-1.336-.027-3.054-1.861-3.054-1.863 0-2.148 1.454-2.148 2.957v5.701h-3v-10h2.879v1.367h.041c.401-.761 1.379-1.562 2.839-1.562 3.037 0 3.6 2.001 3.6 4.604v5.591z"/>
                 </svg>
               </a>
               {/* Instagram */}
-              <a href="#" aria-label="Instagram" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/djscompute/" aria-label="Instagram" className="hover:opacity-80 transition-opacity">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
               </a>
               {/* Email */}
-              <a href="mailto:info@example.com" aria-label="Email" className="hover:opacity-80 transition-opacity">
+              <a href="mailto:info.djscompute@gmail.com" aria-label="Email" className="hover:opacity-80 transition-opacity">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
                   <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
                 </svg>
@@ -55,8 +55,8 @@ export default function Footer() {
           {/* Contact */}
           <div className="text-center md:text-right jolly-lodger-regular">
             <h3 className="jolly-lodger-regular text-3xl sm:text-4xl lg:text-5xl mb-6 sm:mb-8 tracking-wide uppercase">Contact Us:</h3>
-            <p className="text-xl sm:text-2xl mb-2">Tanmay: +91 9819479556</p>
-            <p className="text-xl sm:text-2xl">Kirtan: +91 9699076729</p>
+            <a href="tel:+919819479556" className="text-xl sm:text-2xl mb-2 inline-block">Tanmay: +91 9819479556</a>
+            <a href="tel:+919699076729" className="text-xl sm:text-2xl inline-block">Kirtan: +91 9699076729</a>
           </div>
         </div>
       </div>
