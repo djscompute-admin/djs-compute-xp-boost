@@ -169,15 +169,15 @@ export default function Home() {
           />
           {/* Loading GIF overlay */}
           <div
-            className={`absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-300 pointer-events-none select-none ${
-              viewerReady ? "opacity-0" : "opacity-100"
-            }`}
+            className={`absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-300 pointer-events-none select-none ${viewerReady ? "opacity-0" : "opacity-100"
+              }`}
           >
             <Image
               src="/hero_section/loading.gif"
               alt="Loading 3D Model"
               width={160}
               height={160}
+              unoptimized={true}
               priority
               style={{ width: "auto", height: "auto" }}
             />
@@ -240,21 +240,18 @@ export default function Home() {
       />
 
       {/* Leaderboard Section */}
-     
 
-    <div>
-      <Head>
-        <title>Spooky Leaderboard</title>
-        <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet" />
-        {/* You might want to prefetch images for the background here */}
-      </Head>
 
-      <main>
-        {/* Other sections of your webpage can go here */}
+      <div>
+        <Head>
+          <title>Spooky Leaderboard</title>
+          <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet" />
+          {/* You might want to prefetch images for the background here */}
+        </Head>
+
         <Leaderboard />
-        {/* More sections */}
-      </main>
-    </div>
+
+      </div>
 
 
       {/* About Party, Prize Pool & FAQ Container with Shared Background */}

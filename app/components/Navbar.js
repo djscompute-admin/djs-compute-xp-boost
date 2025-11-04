@@ -62,11 +62,11 @@ export default function Navbar() {
           <Image
             src="/djs-compute-logo.png"
             alt="Dis Compute Logo"
-            width={150}
-            height={70}
-            className="brightness-0 invert"
+            width={240}
+            height={110}
+            className="brightness-0 invert h-14 md:h-16"
             priority
-            style={{ width: 'auto', height: '40px' }}
+            style={{ width: 'auto', height: '56px' }}
           />
         </a>
 
@@ -84,7 +84,7 @@ export default function Navbar() {
           href="https://forms.gle/ZPR8EcxSGZSgBQWQ9"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 nosifer-regular"
+          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm md:text-lg transition-all transform hover:scale-105 nosifer-regular"
         >
           Register Now
         </a>

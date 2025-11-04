@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'; // Added useMemo
 import Image from 'next/image';
 import styles from './Leaderboard.module.css';
 
-const REFRESH_INTERVAL = 20 * 1000; // 20 seconds
+const REFRESH_INTERVAL = 30 * 1000; // 30 seconds
 const TEAMS_PER_PAGE = 7; // Number of teams to display per page in the scrollable section
 
 const Leaderboard = () => {
@@ -89,10 +89,11 @@ const Leaderboard = () => {
   return (
     <section id="leaderboard" className={styles.leaderboardSection}>
       {error && <p className={styles.errorText}>{error}</p>}
-      <br/>
-      <br/>
-      <br/>
-      <div className={styles.top3}>
+  <br/>
+  <br/>
+  <br/>
+  <h2 className={`${styles.leaderboardTitle} jolly-lodger-regular`}>Leaderboard</h2>
+  <div className={styles.top3}>
         {teams[1] && ( // 2nd Place
           <div className={styles.podiumWrapper}>
             <span className={styles.teamNameAbovePodium}>{teams[1].teamName}</span>
