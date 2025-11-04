@@ -56,7 +56,7 @@ export default function Footer() {
           {/* Contact */}
           <div className="text-center md:text-right jolly-lodger-regular">
             <h3 className="jolly-lodger-regular text-3xl sm:text-4xl lg:text-5xl mb-6 sm:mb-8 tracking-wide uppercase">Contact Us:</h3>
-            <a href="tel:+919819479556" className="text-xl sm:text-2xl mb-2 inline-block">Tanmay: +91 9819479556</a>
+            <a href="tel:+919819479556" className="text-xl sm:text-2xl mb-2 inline-block">Tanmay: +91 9819479556</a><br>
             <a href="tel:+919699076729" className="text-xl sm:text-2xl inline-block">Kirtan: +91 9699076729</a>
           </div>
         </div>
